@@ -1,0 +1,12 @@
+# input
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /log/*.log
+
+# output
+output.elasticsearch:
+  hosts: ['']
+  username: ''
+  password: ''

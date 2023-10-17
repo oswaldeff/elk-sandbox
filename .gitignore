@@ -1,0 +1,5 @@
+config/secret
+node_modules
+log
+.vscode/
+build/

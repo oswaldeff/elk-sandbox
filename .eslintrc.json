@@ -1,0 +1,90 @@
+// {
+//   /*
+//    현재 설정 파일이 root 임을 표시.
+//    해당 속성이 있으면 설정 파일을 찾으러 상위 폴더로 올라가지 않는다.
+//   */
+//   "root": true,
+//   "env": {
+//     "node": true,
+//     "es2021": true
+//   },
+//   "extends": [
+//     "eslint:recommended",
+//     "plugin:node/recommended",
+//     "plugin:import/recommended",
+//     "prettier"
+//   ],
+//   "parserOptions": {
+//     "ecmaVersion": "latest",
+//     "sourceType": "module"
+//   },
+//   "plugins": ["prettier", "import"],
+//   "ignorePatterns": ["node_modules/"],
+//   "settings": {
+//     "import/resolver": {
+//       "alias": [
+//         ["#app", "./app"],
+//         ["#common", "./common"],
+//         ["#config", "./config"],
+//         ["#build", "./build"],
+//         ["#middleWare", "./middleWare"]
+//       ]
+//     }
+//   },
+//   "rules": {
+//     // console.log 사용가능
+//     "no-console": "off",
+//     "import/order": [
+//       "error",
+//       {
+//         "groups": [
+//           "type",
+//           "builtin",
+//           "external",
+//           "internal",
+//           "parent",
+//           "sibling",
+//           "index",
+//           "unknown"
+//         ],
+//         "pathGroups": [
+//           {
+//             "pattern": "@app/*",
+//             "group": "internal",
+//             "position": "after"
+//           },
+//           {
+//             "pattern": "@common/*",
+//             "group": "internal",
+//             "position": "after"
+//           },
+//           {
+//             "pattern": "@config/*",
+//             "group": "internal",
+//             "position": "after"
+//           },
+//           {
+//             "pattern": "@middleWare/*",
+//             "group": "internal",
+//             "position": "after"
+//           }
+//         ],
+//         "alphabetize": {
+//           "order": "asc"
+//         }
+//       }
+//     ]
+//   }
+
+//   // 일부 파일만 다른 세팅을 적용할 수 있다.
+//   // "overrides": [
+//   //   // ts에 대한 lint 설정
+//   //   {
+//   //     "files": "**/*.+(ts|tsx)",
+//   //     "parser": "@typescript-eslint/parser",
+
+//   //     "plugins": ["@typescript-eslint"],
+//   //     "extends": ["plugin:@typescript-eslint/recommended"]
+//   //   }
+//   // ]
+// }
