@@ -7,7 +7,6 @@ services:
     volumes:
       - /home/ubuntu/project:/server
       - /home/ubuntu/project/deploy/dev/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-      - fbdata:/usr/share/filebeat/data/
       - /home/ubuntu/project/log:/server/log
 
   express:
@@ -26,7 +25,3 @@ services:
 networks:
   inner-network:
     driver: bridge
-
-volumes:
-  fbdata:
-    driver: local
