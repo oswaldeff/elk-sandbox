@@ -7,7 +7,7 @@ services:
     volumes:
       - /home/ubuntu/project:/server
       - /home/ubuntu/project/deploy/dev/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-      - /home/ubuntu/project/log:/server/log
+      - /home/ubuntu/project/log/:/logs/
 
   express:
     container_name: express
