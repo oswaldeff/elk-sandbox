@@ -4,8 +4,10 @@ services:
   filebeat:
     container_name: filebeat
     image: docker.elastic.co/beats/filebeat:7.10.2
+    user: ubuntu
     volumes:
       - /home/ubuntu/project/deploy/dev/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - fbdata:/usr/share/filebeat/logs/
       - /home/ubuntu/project/log/:/usr/share/filebeat/logs/
 
   express:
@@ -24,3 +26,7 @@ services:
 networks:
   inner-network:
     driver: bridge
+
+volumes:
+  fbdata:
+    driver: local
