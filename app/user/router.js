@@ -7,7 +7,7 @@ import {
   validateBodyByWhitelist,
   validateBodyWithoutWhitelist,
 } from '../../common/validator.js';
-import { UserLoginDTO } from '../../build/user/dto.js';
+import { UserLoginDTO } from '../../build/dto.js';
 import { login } from './service.js';
 
 const expressApp = express();
