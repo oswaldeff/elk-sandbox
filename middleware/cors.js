@@ -33,8 +33,6 @@ class CORS {
   initialize(res, serverMode) {
     switch (serverMode) {
       default:
-        this.allowOrigin = [`https://local.${config.domain}:3000`];
-        this.credentials = true;
         break;
       case 'prod':
         this.allowOrigin = ``;
