@@ -3,20 +3,21 @@ version: '3.3'
 services:
   filebeat:
     container_name: filebeat
-    image: docker.elastic.co/beats/filebeat:7.10.2
-    user: ubuntu
+    build:
+      context: /home/ubuntu/Express
+      dockerfile: ./Dockerfile.filebeat
     volumes:
-      - /home/ubuntu/project/deploy/dev/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-      - fbdata:/usr/share/filebeat/logs/
-      - /home/ubuntu/project/log/:/usr/share/filebeat/logs/
+      - shared-log:/var/log/server
 
   express:
     container_name: express
     build:
-      context: /home/ubuntu/project
+      context: /home/ubuntu/Express
       dockerfile: ./Dockerfile.express
     volumes:
       - /server/node_modules
+      - /home/ubuntu/Express:/server
+      - shared-log:/server/log
     ports:
       - '3000:3000'
     command: ['npm', 'run', 'dev']
@@ -28,5 +29,4 @@ networks:
     driver: bridge
 
 volumes:
-  fbdata:
-    driver: local
+  shared-log:
