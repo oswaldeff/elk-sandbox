@@ -1,0 +1,137 @@
+version: '3.3'
+
+services:
+  es01:
+    container_name: es01
+    build:
+      context: /home/ubuntu/ELK
+      dockerfile: Dockerfile.elasticsearch
+    environment:
+      - node.name=es01
+      - cluster.name=es-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+      - xpack.license.self_generated.type=basic
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es01-volume:/usr/share/elasticsearch/data
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    expose:
+      - '9200'
+    networks:
+      - es-network
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'curl --silent --fail localhost:9200/_cluster/health || exit 1',
+        ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  es02:
+    container_name: es02
+    build:
+      context: /home/ubuntu/ELK
+      dockerfile: Dockerfile.elasticsearch
+    environment:
+      - node.name=es02
+      - cluster.name=es-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+      - xpack.license.self_generated.type=basic
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es02-volume:/usr/share/elasticsearch/data
+    networks:
+      - es-network
+
+  es03:
+    container_name: es03
+    build:
+      context: /home/ubuntu/ELK
+      dockerfile: Dockerfile.elasticsearch
+    environment:
+      - node.name=es03
+      - cluster.name=es-cluster
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+      - xpack.license.self_generated.type=basic
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es03-volume:/usr/share/elasticsearch/data
+    networks:
+      - es-network
+
+  logstash:
+    container_name: logstash
+    build:
+      context: /home/ubuntu/ELK
+      dockerfile: Dockerfile.logstash
+    volumes:
+      - type: bind
+        source: /home/ubuntu/ELK/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+        read_only: true
+      - type: bind
+        source: /home/ubuntu/ELK/logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: true
+    ports:
+      - '5044:5044'
+    expose:
+      - '5044'
+    environment:
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+    networks:
+      - es-network
+    depends_on:
+      - es01
+
+  kibana:
+    container_name: kibana
+    build:
+      context: /home/ubuntu/ELK
+      dockerfile: Dockerfile.kibana
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: 'http://es01:9200'
+      ELASTICSEARCH_HOSTS: 'http://es01:9200'
+    networks:
+      - es-network
+    depends_on:
+      - es01
+
+networks:
+  es-network:
+    driver: bridge
+
+volumes:
+  es01-volume:
+    driver: local
+  es02-volume:
+    driver: local
+  es03-volume:
+    driver: local
