@@ -6,11 +6,9 @@ filebeat.inputs:
       - '/var/log/server/*.log'
 
 # output
-output.elasticsearch:
+output.logstash:
   hosts: ['']
-  protocol: 'https'
-  username: ''
-  password: ''
+  ttl: 120
 
 setup.ilm.enabled: false
 setup.pack.security.enabled: false

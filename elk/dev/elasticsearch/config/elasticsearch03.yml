@@ -1,0 +1,5 @@
+cluster.name: "docker-cluster"
+node.name: "data-node-es03"
+bootstrap.memory_lock: true
+cluster.initial_master_nodes: "master-node-es01"
+network.host: 0.0.0.0
