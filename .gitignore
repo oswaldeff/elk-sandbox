@@ -4,5 +4,3 @@ log
 .vscode/
 build/
 deploy/dev/filebeat.yml
-elk/dev/logstash.yml
-elk/dev/logstash/pipeline/logstash.conf
