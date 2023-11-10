@@ -1,4 +1,4 @@
-version: "3.3"
+version: '3.3'
 
 services:
   elasticsearch01:
@@ -12,14 +12,14 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - es01:/usr/share/elasticsearch/data
     ulimits:
-      memlock:
-        soft: -1
-        hard: -1
+      memlock: # 메모리 내 주소 공간의 최대 크기
+        soft: -1 # 프로그램 시작 시 적용하는 기본 한도, unlimited
+        hard: -1 # 프로그램 시작 시 적용하는 최대 한도, unlimited
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - '9200:9200' # http port(9200-9299)
+      - '9300:9300' # tcp포트(9300-9399)
     environment:
-      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      ES_JAVA_OPTS: '-Xms512m -Xmx512m' # -Xms: minimum heap size, -Xmx: maximum heap size
     networks:
       - es-network
 
@@ -38,10 +38,10 @@ services:
         soft: -1
         hard: -1
     ports:
-      - "9301:9300"
+      - '9301:9300' # 9300:9300일 경우 외부 연결포트가 master-node와 중복
     environment:
-      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
-      discovery.zen.ping.unicast.hosts: "elasticsearch01"
+      ES_JAVA_OPTS: '-Xms512m -Xmx512m'
+      discovery.zen.ping.unicast.hosts: 'elasticsearch01'
     networks:
       - es-network
     depends_on:
@@ -62,10 +62,10 @@ services:
         soft: -1
         hard: -1
     ports:
-      - "9302:9300"
+      - '9302:9300' # 9300:9300일 경우 외부 연결포트가 master-node와 중복
     environment:
-      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
-      discovery.zen.ping.unicast.hosts: "elasticsearch01"
+      ES_JAVA_OPTS: '-Xms512m -Xmx512m'
+      discovery.zen.ping.unicast.hosts: 'elasticsearch01'
     networks:
       - es-network
     depends_on:
@@ -82,10 +82,10 @@ services:
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "5044:5044"
-      - "9600:9600"
+      - '5044:5044'
+      - '9600:9600'
     environment:
-      LS_JAVA_OPTS: "-Xmx1G -Xms1G"
+      LS_JAVA_OPTS: '-Xmx1G -Xms1G'
     networks:
       - es-network
     depends_on:
@@ -101,7 +101,7 @@ services:
       - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "5601:5601"
+      - '5601:5601'
     networks:
       - es-network
     depends_on:

@@ -1,5 +1,5 @@
-cluster.name: "docker-cluster"
-node.name: "data-node-es03"
-bootstrap.memory_lock: true
-cluster.initial_master_nodes: "master-node-es01"
-network.host: 0.0.0.0
+cluster.name: 'docker-cluster' # 동일 클러스터 구성
+node.name: 'data-node-es03' # 노드 이름
+bootstrap.memory_lock: true # 메모리 스왑 락(lock the process address space into RAM, preventing any Elasticsearch memory from being swapped out)
+cluster.initial_master_nodes: 'master-node-es01' # 마스터 노드 후보
+network.host: 0.0.0.0 # 노드 IP 지정
